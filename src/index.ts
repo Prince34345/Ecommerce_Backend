@@ -3,7 +3,7 @@ import cors from 'cors'
 import 'dotenv/config'
 import morganLogger from './config/morgan'
 import logger from './config/winston'
-import routes from './routes/index';
+import routes from './routes/index'
 
 async function startServer() {
   const app = express()

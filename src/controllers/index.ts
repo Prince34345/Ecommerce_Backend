@@ -1,5 +1,13 @@
-import { getProduct } from "./Products";
+import {
+  deleteProduct,
+  getAllProducts,
+  getProduct,
+  updateProduct,
+} from './product/Products'
 
 export const controllers = {
-  getProduct
+  getProduct,
+  getAllProducts,
+  deleteProduct,
+  updateProduct,
 }
