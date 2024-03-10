@@ -1,6 +1,6 @@
-import { Request, Response, response } from 'express'
-import logger from '../../config/winston'
-import prisma from '../../prismaClient'
+import { Request, Response } from 'express'
+import logger from '../config/winston'
+import prisma from '../prismaClient'
 
 export interface ProductInfo {
   ProductId: number
