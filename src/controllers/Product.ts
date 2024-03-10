@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 import logger from '../config/winston'
 import prisma from '../prismaClient'
-
 export interface ProductInfo {
   ProductId: number
   Gender: string
@@ -31,6 +30,23 @@ export const getProduct = async (req: Request, res: Response) => {
     res.json({response})
     logger.info('Retrieved product data');
     // res.status(200).json({response})
+  } catch (error) {
+    res.status(400).send('error in product query')
+  }
+}
+export const createProduct = async (req: Request, res: Response) => {
+  try {
+    if(![...req.body]) {
+         logger.info("invalid Input Problem")
+    }else{
+
+    const response = await prisma.products.create({
+      data: req.body
+    });
+    res.json(response.id)
+    logger.info('Retrieved product data');
+    // res.status(200).json({response})
+    }
   } catch (error) {
     res.status(400).send('error in product query')
   }
