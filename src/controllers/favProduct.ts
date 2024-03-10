@@ -1,13 +1,10 @@
 import logger from '../config/winston'
 import prisma from '../prismaClient'
-
-export const getFavProducts = async (args: { page: number; limit: number }) => {
+import {Request, Response} from "express"
+export const getFavProducts = async (req: Request, res: Response) => {
   try {
-    const skip = (args.page - 1) * args.limit
-    const response = await prisma.favouriteProducts.findMany({
-      take: args.limit,
-      skip,
-    })
+    const response = await prisma.favouriteProducts.findMany();
+    res.json(response)
 
     logger.info('Retrieved all Favourite Products data:', { response })
 
@@ -18,35 +15,34 @@ export const getFavProducts = async (args: { page: number; limit: number }) => {
   }
 }
 
-export const createFavProduct = async (args: {
-  favProductInfo: ProductInfo
-}) => {
+export const createFavProduct = async (req: Request, res: Response) => {
   try {
-    const newProduct = await prisma.favouriteProducts.create({
-      data: args.favProductInfo,
-    })
+    // const newProduct = await prisma.favouriteProducts.create({
+    //   data: args.favProductInfo,
+    // })
 
-    logger.info('New product added in Favourite Products successfully', {
-      newProduct,
-    })
+    // logger.info('New product added in Favourite Products successfully', {
+    //   newProduct,
+    // })
 
-    return newProduct
+    // return newProduct
   } catch (error) {
     logger.error('Error creating createFavProduct:', { error })
     throw error
   }
 }
 
-export const deleteFavProduct = async (args: { id: string }) => {
+export const deleteFavProduct = async (req: Request, res: Response) => {
+  const {id} = req.params
   try {
     const deletedProduct = await prisma.favouriteProducts.delete({
       where: {
-        id: args.id,
+        id,
       },
     })
 
     if (!deletedProduct) {
-      throw new Error(`Product with id ${args.id} not found`)
+      throw new Error(`Product with id ${id} not found`)
     }
 
     logger.info('Favourite Product deleted successfully', { deletedProduct })

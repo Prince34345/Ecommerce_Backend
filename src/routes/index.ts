@@ -27,4 +27,12 @@ router.post('/category/:id', Categorycontrollers.createCategory)
 router.put('/category/:id', Categorycontrollers.updateCategory)
 router.delete('/category/:id', Categorycontrollers.deleteCategory)
 
+
+//favProducts Routes 
+router.get('/favourites', Categorycontrollers.getCategories)
+router.post('/category/:id', Categorycontrollers.createCategory)
+// router.post('/category/:id', controllers.getAllcategorys)
+router.delete('/favourite/:id', Categorycontrollers.deleteCategory)
+
+
 export default router
