@@ -26,7 +26,11 @@ async function startServer() {
   if (process.env.NODE_ENV === 'development') {
     logger.info(`Server is running at http://localhost:${process.env.PORT}`)
   }
-
+  if(process.env.NODE_ENV === 'production') {
+     app.get("/", (req, res) => {
+         res.json({message: "you can clearly connect to network"})
+     })
+  }
   return { app }
 }
 
