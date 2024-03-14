@@ -8,11 +8,11 @@
 		"lint": "eslint . --ext ts",
 		"format": "prettier --write 'src/**/*.{js,ts,json}'",
 		"start": "npm run build && node dist/index.js",
-		"postinstall": "prisma generate",
+		"postinstall": "npx prisma generate",
 		"dev": "concurrently \"npm:build -w\"",
 		"nodemon": "nodemon && npm run build && node dist/index.js"
 	},
-	"type": "module",
+	"type": "commonjs",
 	"keywords": [
 		"node",
 		"express",
