@@ -1,4 +1,4 @@
-import express,{Request, Response, Errback} from 'express'
+import express,{Request, Response, Errback, response} from 'express'
 import cors from 'cors'
 import 'dotenv/config'
 import morganLogger from './config/morgan'
@@ -15,9 +15,12 @@ async function startServer() {
     origin: process.env.HOST,
     credentials: true,
   }
+  app.use("*", (req, res, next) => {
+    next(new Error('Invalid Route'));
+    res.json({response: "Invalid ROute"})
+  })
 
   app.use(cors(corsOptions))
-
 
   await new Promise<void>((resolve) =>
     app.listen({ port: process.env.PORT }, () => resolve()),
