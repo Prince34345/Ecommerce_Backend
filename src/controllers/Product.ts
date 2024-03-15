@@ -67,10 +67,6 @@ export const getAllProducts = async (req: Request , res: Response) => {
     throw error
   }
 }
-
-
-
-
 export const updateProduct = async (req: Request, res: Response) => {
   const {id} = req.params
   try {
@@ -88,7 +84,6 @@ export const updateProduct = async (req: Request, res: Response) => {
     throw error
   }
 }
-
 export const deleteProduct = async (req: Request, res: Response) => {
   const {id} = req.params
   try {

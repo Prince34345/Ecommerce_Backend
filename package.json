@@ -9,10 +9,9 @@
 		"format": "prettier --write 'src/**/*.{js,ts,json}'",
 		"start": "npm run build && node dist/index.js",
 		"postinstall": "npx prisma generate",
-		"dev": "concurrently \"npm:build -w\"",
 		"nodemon": "nodemon && npm run build && node dist/index.js"
 	},
-	"type": "module",
+	"type": "commonjs",
 	"keywords": [
 		"node",
 		"express",
@@ -36,7 +35,6 @@
 		"winston": "^3.11.0"
 	},
 	"devDependencies": {
-		"@types/node": "^18.19.21",
 		"@typescript-eslint/eslint-plugin": "^6.13.1",
 		"@typescript-eslint/parser": "^6.13.1",
 		"husky": "^8.0.3",
