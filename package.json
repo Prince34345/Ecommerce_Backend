@@ -2,7 +2,7 @@
 	"name": "ecommerce_backend",
 	"version": "1.0.0",
 	"description": "",
-	"main": "nodemon",
+	"main": "",
 	"scripts": {
 		"build": "tsc -p tsconfig.json",
 		"lint": "eslint . --ext ts",
