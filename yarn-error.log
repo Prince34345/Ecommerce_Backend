@@ -1,0 +1,73 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\Lenovo\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @types/node
+
+PATH: 
+  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\MinGW\bin\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Git\cmd;C:\Users\Lenovo\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Lenovo\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\Lenovo\AppData\Local\Programs\Python\Python310\;C:\Users\Lenovo\AppData\Local\Microsoft\WindowsApps;C:\MinGW\bin\;C:\Users\Lenovo\AppData\Roaming\npm;C:\Users\Lenovo\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Lenovo\AppData\Roaming\nvm;C:\Program Files\nodejs
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  21.5.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: ENOENT: no such file or directory, copyfile 'C:\Users\Lenovo\AppData\Local\Yarn\Cache\v6\npm-ansi-styles-4.3.0-edd803628ae71c04c85ae7a0906edad34b648937-integrity\node_modules\ansi-styles\index.d.ts' -> 'C:\Users\Lenovo\Documents\VsCodingPrince\dummyreact\Ecommerce\Ecommerce_Backend\node_modules\eslint\node_modules\ansi-styles\index.d.ts'
+
+npm manifest: 
+  {
+  	"name": "ecommerce_backend",
+  	"version": "1.0.0",
+  	"description": "",
+  	"main": "src/index.ts",
+  	"scripts": {
+  		"build": "tsc -p tsconfig.json",
+  		"lint": "eslint . --ext ts",
+  		"format": "prettier --write 'src/**/*.{js,ts,json}'",
+  		"start": "npm run build && node dist/index.js",
+  		"postinstall": "npx prisma generate",
+  		"dev": "concurrently \"npm:build -w\"",
+  		"nodemon": "nodemon && npm run build && node dist/index.js"
+  	},
+  	"type": "module",
+  	"keywords": [
+  		"node",
+  		"express",
+  		"rest",
+  		"typescript"
+  	],
+  	"author": "",
+  	"license": "ISC",
+  	"dependencies": {
+  		"@prisma/client": "^5.7.0",
+  		"@types/express": "^4.17.21",
+  		"cors": "^2.8.5",
+  		"dotenv": "^16.3.1",
+  		"eslint": "^8.55.0",
+  		"eslint-config-prettier": "^9.1.0",
+  		"eslint-plugin-prettier": "^5.0.1",
+  		"express": "^4.18.2",
+  		"morgan": "^1.10.0",
+  		"prettier": "^3.1.0",
+  		"typescript-eslint": "0.0.1-alpha.0",
+  		"winston": "^3.11.0"
+  	},
+  	"devDependencies": {
+  		"@types/node": "^18.15.5",
+  		"@typescript-eslint/eslint-plugin": "^6.13.1",
+  		"@typescript-eslint/parser": "^6.13.1",
+  		"husky": "^8.0.3",
+  		"lint-staged": "^15.1.0",
+  		"prisma": "^5.7.0",
+  		"ts-node": "^10.9.1",
+  		"typescript": "^5.0.2"
+  	}
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
