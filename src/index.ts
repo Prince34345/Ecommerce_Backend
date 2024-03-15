@@ -4,8 +4,6 @@ import 'dotenv/config'
 import morganLogger from './config/morgan'
 import logger from './config/winston'
 import routes from './routes/index'
-import ApiError from 'controllers/error/APIerror'
-import httpStatus from "http-status";
 async function startServer() {
   const app = express()
   app.use(morganLogger)
@@ -20,28 +18,7 @@ async function startServer() {
 
   app.use(cors(corsOptions))
 
-   // send 404 for an unknown api request
-   app.use((req, res, next) => {
-    next(
-      new ApiError(
-        'Not Found',
-        httpStatus.NOT_FOUND,
-        httpStatus[httpStatus.NOT_FOUND],
-      ),
-    )
-  })
 
-  // global error handler
-  app.use((err, req, res, next) => {
-    const { statusCode, message, data } = err;
-    const response = {
-      ...data,
-      message,
-      status: statusCode,
-      ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
-    }
-    res.status(statusCode).json(response)
-  })
   await new Promise<void>((resolve) =>
     app.listen({ port: process.env.PORT }, () => resolve()),
   )
