@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import logger from '../config/winston'
 import prisma from '../prismaClient'
-import ApiError from './error/APIerror'
+import ApiError from "../../error/APIerror"
 import httpStatus from 'http-status';
 export interface ProductInfo {
   ProductId: number
