@@ -1,6 +1,8 @@
 import { Request, Response } from 'express'
 import logger from '../config/winston'
 import prisma from '../prismaClient'
+import ApiError from './error/APIerror'
+import httpStatus from 'http-status';
 export interface ProductInfo {
   ProductId: number
   Gender: string
@@ -32,6 +34,11 @@ export const getProduct = async (req: Request, res: Response) => {
     // res.status(200).json({response})
   } catch (error) {
     res.status(400).send('error in product query')
+    throw new ApiError(
+      'Error in getProduct query',
+      httpStatus.INTERNAL_SERVER_ERROR,
+      httpStatus[httpStatus.INTERNAL_SERVER_ERROR],
+    )
   }
 }
 export const createProduct = async (req: Request, res: Response) => {
@@ -49,6 +56,11 @@ export const createProduct = async (req: Request, res: Response) => {
     }
   } catch (error) {
     res.status(400).send('error in product query')
+    throw new ApiError(
+      'Error in createProduct query',
+      httpStatus.INTERNAL_SERVER_ERROR,
+      httpStatus[httpStatus.INTERNAL_SERVER_ERROR],
+    )
   }
 }
 export const getAllProducts = async (req: Request , res: Response) => {
@@ -63,8 +75,12 @@ export const getAllProducts = async (req: Request , res: Response) => {
     res.status(200).json({response});
     
   } catch (error) {
-    logger.error('Error in getAllProducts query:', { error })
-    throw error
+    logger.error('Error in getAllProducts query:', { error });
+    throw new ApiError(
+      'Error in getAllProduct query',
+      httpStatus.INTERNAL_SERVER_ERROR,
+      httpStatus[httpStatus.INTERNAL_SERVER_ERROR],
+    )
   }
 }
 export const updateProduct = async (req: Request, res: Response) => {
@@ -80,7 +96,12 @@ export const updateProduct = async (req: Request, res: Response) => {
 
     // return updateProduct
   } catch (error) {
-    logger.error('Error updating product:', { error })
+    logger.error('Error updating product:', { error });
+    throw new ApiError(
+      'Error in updateProduct query',
+      httpStatus.INTERNAL_SERVER_ERROR,
+      httpStatus[httpStatus.INTERNAL_SERVER_ERROR],
+    )
     throw error
   }
 }
@@ -101,7 +122,12 @@ export const deleteProduct = async (req: Request, res: Response) => {
 
     return true
   } catch (error) {
-    logger.error('Error deleting product:', { error })
+    logger.error('Error deleting product:', { error });
+    throw new ApiError(
+      'Error in deleteProduct query',
+      httpStatus.INTERNAL_SERVER_ERROR,
+      httpStatus[httpStatus.INTERNAL_SERVER_ERROR],
+    )
     throw error
   }
 }
