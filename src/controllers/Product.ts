@@ -1,6 +1,8 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response, response } from 'express'
 import logger from '../config/winston'
 import prisma from '../prismaClient'
+import ApiError from '../utils/ApiError'
+import httpStatus, { INTERNAL_SERVER_ERROR } from 'http-status'
 export interface ProductInfo {
   ProductId: number
   Gender: string
@@ -14,27 +16,33 @@ export interface ProductInfo {
   UnitPrice: GLfloat
 }
 
-export const getProduct = async (req: Request, res: Response) => {
+export const getProduct = async (req: Request, res: Response, next: NextFunction) => {
   logger.info('getProduct controller called')
   const paramId = req.params.id as string
   if (!paramId) {
     logger.error('id is missing in payload')
     res.status(400).send('id is missing in payload')
   }
+
   try {
     const response = await prisma.products.findUnique({
       where: {
         id: paramId
       },
     });
-    res.json({response})
     logger.info('Retrieved product data');
-    // res.status(200).json({response})
+    res.status(200).json({response})
   } catch (error) {
-    res.status(400).send('error in product query')
+    next(
+      new ApiError(
+        'error in product query',
+        httpStatus.INTERNAL_SERVER_ERROR,
+        httpStatus[httpStatus.INTERNAL_SERVER_ERROR],
+      ),
+    )
   }
 }
-export const createProduct = async (req: Request, res: Response) => {
+export const createProduct = async (req: Request, res: Response, next: NextFunction) => {
   try {
     if(![...req.body]) {
          logger.info("invalid Input Problem")
@@ -45,15 +53,19 @@ export const createProduct = async (req: Request, res: Response) => {
     });
     res.json(response.id)
     logger.info('Retrieved product data');
-    // res.status(200).json({response})
+    res.status(200).json({response})
     }
   } catch (error) {
     res.status(400).send('error in product query')
   }
 }
-export const getAllProducts = async (req: Request , res: Response) => {
+
+export const getAllProducts = async (req: Request , res: Response, next: NextFunction) => {
   const { page, limit }  = req.query as { page?: number | any, limit?: number | any };
+  // console.log("test", page)
+  if (page || limit || page === 0)  {res.send(new ApiError("Bad Request",httpStatus.BAD_REQUEST,httpStatus[httpStatus.BAD_REQUEST]))}
   const skip = (page - 1) * limit;
+  
   try {
     const response = await prisma.products.findMany({
       take: Number(limit),
@@ -63,14 +75,14 @@ export const getAllProducts = async (req: Request , res: Response) => {
     res.status(200).json({response});
     
   } catch (error) {
-    logger.error('Error in getAllProducts query:', { error })
+    next(new ApiError("Error in getting the All Product query", httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
   }
 }
 
 
 
 
-export const updateProduct = async (req: Request, res: Response) => {
+export const updateProduct = async (req: Request, res: Response, next: NextFunction) => {
   const {id} = req.params
   try {
     const updateProduct = await prisma.products.update({where: {id}, data: req.body as ProductInfo})
@@ -83,12 +95,11 @@ export const updateProduct = async (req: Request, res: Response) => {
 
     // return updateProduct
   } catch (error) {
-    logger.error('Error updating product:', { error })
-    throw error
+    next(new ApiError("Error in updating Product query", httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
   }
 }
 
-export const deleteProduct = async (req: Request, res: Response) => {
+export const deleteProduct = async (req: Request, res: Response, next: NextFunction) => {
   const {id} = req.params
   try {
     const deletedProduct = await prisma.products.delete({
@@ -105,7 +116,6 @@ export const deleteProduct = async (req: Request, res: Response) => {
 
     return true
   } catch (error) {
-    logger.error('Error deleting product:', { error })
-    throw error
+       next(new ApiError("Error in Delete Product query", httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
   }
 }
