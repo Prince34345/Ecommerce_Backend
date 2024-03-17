@@ -63,7 +63,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
 export const getAllProducts = async (req: Request , res: Response, next: NextFunction) => {
   const { page, limit }  = req.query as { page?: number | any, limit?: number | any };
   // console.log("test", page)
-  if (page || limit || page === 0)  {res.send(new ApiError("Bad Request",httpStatus.BAD_REQUEST,httpStatus[httpStatus.BAD_REQUEST]))}
+  if (!page || !limit || page === 0)  {res.send(new ApiError("Bad Request",httpStatus.BAD_REQUEST,httpStatus[httpStatus.BAD_REQUEST]))}
   const skip = (page - 1) * limit;
   
   try {
