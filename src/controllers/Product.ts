@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, response } from 'express'
 import logger from '../config/winston'
 import prisma from '../prismaClient'
-import ApiError from '../utils/ApiError'
+import ApiError from './../utils/ApiError'
 import httpStatus from 'http-status'
 // import { http } from 'winston'
 export interface ProductInfo {

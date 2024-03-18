@@ -1,4 +1,4 @@
-import ApiError from 'utils/ApiError'
+import ApiError from './../utils/ApiError'
 import logger from '../config/winston'
 import prisma from '../prismaClient'
 import {NextFunction, Request, Response} from "express"

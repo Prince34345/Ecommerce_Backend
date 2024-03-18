@@ -9,6 +9,9 @@ import httpStatus from 'http-status'
 
 async function startServer() {
   const app = express()
+  app.get("/", (req, res, next) => {
+    res.json({message:"Welcome to the Backend of Ecommerce.."})
+})
   app.use(morganLogger)
   app.use(express.json())
 
