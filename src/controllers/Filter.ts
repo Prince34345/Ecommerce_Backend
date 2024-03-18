@@ -1,6 +1,8 @@
 import prisma from "../prismaClient";
 import logger from "../config/winston";
-import {Request, Response} from "express";
+import {NextFunction, Request, Response} from "express";
+import ApiError from "./../utils/ApiError";
+import httpStatus from "http-status";
 
 
 interface FilterInfo {
@@ -8,7 +10,7 @@ interface FilterInfo {
     Values: String
 }
 
-export const getFilters = async (req: Request, res: Response) => {
+export const getFilters = async (req: Request, res: Response, next:NextFunction) => {
     try {
      
       const response = await prisma.filters.findMany()
@@ -17,33 +19,34 @@ export const getFilters = async (req: Request, res: Response) => {
   
       return response
     } catch (error) {
-      logger.error('Error in getFilters query:', { error })
-      throw error
+       next(new ApiError("error in filtering query.", httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
     }
   }
   
-export const createFilter = async (args: {
-    filterInfo: {
-      Title: string
-      Values: string
+export const createFilter = async (req: Request, res: Response, next: NextFunction) => {
+    const body = req.body as FilterInfo
+    if(![body]) {
+        res.send(new ApiError("Bad Request!", httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]));
     }
-  }) => {
     try {
       const response = await prisma.filters.create({
-        data: args.filterInfo,
+        data: req.body,
       })
   
       logger.info('Retrieved all createFilters data:', { response })
   
       return response
     } catch (error) {
-      logger.error('Error in createFilters query:', { error })
-      throw error
+        next(new ApiError("Error in creating product", httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
     }
 }
   
-export const updateFilter = async (req:Request, res: Response) => {
+export const updateFilter = async (req:Request, res: Response, next: NextFunction) => {
     const {id} = req.params
+    const body = req.body as FilterInfo
+    if(![body]) {
+      res.send(new ApiError("Bad Request!", httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]));
+    }
     try {
       const updatedfilter = await prisma.filters.update({
         where: {
@@ -60,12 +63,11 @@ export const updateFilter = async (req:Request, res: Response) => {
   
       return updatedfilter
     } catch (error) {
-      logger.error('Error updating filter:', { error })
-      throw error
+      next(new ApiError("error in updating filters.", httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
     }
   }
   
-export const deleteFilter = async (req:Request, res: Response) => {
+export const deleteFilter = async (req:Request, res: Response, next: NextFunction) => {
     const {id} = req.params
     try {
       const deletedfilter = await prisma.filters.delete({
@@ -82,7 +84,6 @@ export const deleteFilter = async (req:Request, res: Response) => {
   
       return true
     } catch (error) {
-      logger.error('Error deleting filter:', { error })
-      throw error
+      next(new ApiError("error in deleting filters.", httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
     }
   }

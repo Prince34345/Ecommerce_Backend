@@ -1,7 +1,25 @@
+import ApiError from 'utils/ApiError';
 import logger from '../config/winston'
 import prisma from '../prismaClient'
-import {Request, Response} from "express"
-export const getFavProducts = async (req: Request, res: Response) => {
+import {NextFunction, Request, Response} from "express"
+import httpStatus from 'http-status';
+
+
+export interface FavProductInfo  {
+  ProductId: number
+  Gender: string
+  Category: string
+  SubCategory: string
+  ProductType: string
+  Colour: string
+  Usage: string
+  ProductTitle: string
+  ImageURL: string
+  UnitPrice: GLfloat
+}
+
+
+export const getFavProducts = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const response = await prisma.favouriteProducts.findMany();
     res.json(response)
@@ -10,29 +28,25 @@ export const getFavProducts = async (req: Request, res: Response) => {
 
     return response
   } catch (error) {
-    logger.error('Error in getFavProducts query:', { error })
-    throw error
+    next(new ApiError("error in getting favourite product.", httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
   }
 }
 
-export const createFavProduct = async (req: Request, res: Response) => {
+export const createFavProduct = async (req: Request, res: Response, next: NextFunction) => {
+  const body = req.body as FavProductInfo;
+  if(![body]) {
+      res.send(new ApiError("Bad Request", httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]))
+  }
   try {
-    // const newProduct = await prisma.favouriteProducts.create({
-    //   data: args.favProductInfo,
-    // })
-
-    // logger.info('New product added in Favourite Products successfully', {
-    //   newProduct,
-    // })
-
-    // return newProduct
+    const newProduct = await prisma.favouriteProducts.create({
+        data: body
+    });
   } catch (error) {
-    logger.error('Error creating createFavProduct:', { error })
-    throw error
+      next(new ApiError("error in creating the fav Product!", httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
   }
 }
 
-export const deleteFavProduct = async (req: Request, res: Response) => {
+export const deleteFavProduct = async (req: Request, res: Response, next: NextFunction) => {
   const {id} = req.params
   try {
     const deletedProduct = await prisma.favouriteProducts.delete({
@@ -44,12 +58,7 @@ export const deleteFavProduct = async (req: Request, res: Response) => {
     if (!deletedProduct) {
       throw new Error(`Product with id ${id} not found`)
     }
-
-    logger.info('Favourite Product deleted successfully', { deletedProduct })
-
-    return true
-  } catch (error) {
-    logger.error('Error deleting deleteFavProduct:', { error })
-    throw error
+  } catch (error) {  
+      next(new ApiError("error in deleting the fav Product!", httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
   }
 }

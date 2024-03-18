@@ -2,7 +2,8 @@ import { NextFunction, Request, Response, response } from 'express'
 import logger from '../config/winston'
 import prisma from '../prismaClient'
 import ApiError from '../utils/ApiError'
-import httpStatus, { INTERNAL_SERVER_ERROR } from 'http-status'
+import httpStatus from 'http-status'
+// import { http } from 'winston'
 export interface ProductInfo {
   ProductId: number
   Gender: string
@@ -44,8 +45,9 @@ export const getProduct = async (req: Request, res: Response, next: NextFunction
 }
 export const createProduct = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    if(![...req.body]) {
-         logger.info("invalid Input Problem")
+    const body = req.body as ProductInfo
+    if(![body]) {
+        res.send(new ApiError("bad request!", httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]))
     }else{
 
     const response = await prisma.products.create({
@@ -56,7 +58,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
     res.status(200).json({response})
     }
   } catch (error) {
-    res.status(400).send('error in product query')
+      next(new ApiError("error in creating a Product!", httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
   }
 }
 
@@ -83,7 +85,11 @@ export const getAllProducts = async (req: Request , res: Response, next: NextFun
 
 
 export const updateProduct = async (req: Request, res: Response, next: NextFunction) => {
-  const {id} = req.params
+  const {id} = req.params;
+  const body = req.body as ProductInfo
+  if (![body]) {
+    res.send(new ApiError("Bad request", httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]))
+  }
   try {
     const updateProduct = await prisma.products.update({where: {id}, data: req.body as ProductInfo})
     if (!updateProduct) {

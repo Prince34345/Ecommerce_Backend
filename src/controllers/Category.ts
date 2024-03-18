@@ -1,8 +1,16 @@
+import ApiError from 'utils/ApiError'
 import logger from '../config/winston'
 import prisma from '../prismaClient'
-import {Request, Response} from "express"
+import {NextFunction, Request, Response} from "express"
+import httpStatus from 'http-status'
 
-export const getCategories = async (req: Request, res: Response) => {
+
+export interface CategoryInfo {
+    Category:string
+}
+
+
+export const getCategories = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const response = await prisma.categories.findMany()
     res.json(response)
@@ -10,17 +18,18 @@ export const getCategories = async (req: Request, res: Response) => {
 
     return response
   } catch (error) {
-    logger.error('Error in getCategories query:', { error })
-    throw error
+    next(new ApiError("error in getting categories query", httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
   }
 }
 
-export const createCategory = async (args: {
-  categoryInfo: { Category: string }
-}) => {
+export const createCategory = async (req: Request, res: Response, next: NextFunction) => {
+  const body = req.body as CategoryInfo;
+  if(![body]) {
+    res.send(new ApiError("Bad Request", httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]));
+  }
   try {
     const response = await prisma.categories.create({
-      data: args.categoryInfo,
+      data: body,
     })
 
     logger.info('Retrieved all createCategory data:', { response })
@@ -32,14 +41,18 @@ export const createCategory = async (args: {
   }
 }
 
-export const updateCategory = async (req: Request, res: Response) => {
+export const updateCategory = async (req: Request, res: Response, next: NextFunction) => {
   const {id} = req.params
+  const body  = req.body as CategoryInfo;
+  if(![body]) {
+      res.send(new ApiError("Bad Request", httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]))
+  }
   try {
     const updatedCategory = await prisma.categories.update({
       where: {
         id,
       },
-      data: req.body,
+      data: body,
     })
 
     if (!updatedCategory) {
@@ -50,12 +63,11 @@ export const updateCategory = async (req: Request, res: Response) => {
 
     return updatedCategory
   } catch (error) {
-    logger.error('Error updating Category:', { error })
-    throw error
+    next(new ApiError("error in deleting category", httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]));
   }
 }
 
-export const deleteCategory = async (req: Request, response: Response) => {
+export const deleteCategory = async (req: Request, response: Response, next: NextFunction) => {
   const {id} = req.params
   try {
     const deletedCategory = await prisma.categories.delete({
@@ -72,7 +84,6 @@ export const deleteCategory = async (req: Request, response: Response) => {
 
     return true
   } catch (error) {
-    logger.error('Error deleting Category:', { error })
-    throw error
+      next(new ApiError("error in deleting category", httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]));
   }
 }
