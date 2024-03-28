@@ -11,6 +11,7 @@
     "sourceMap": false,
     "outDir": "dist",
     "baseUrl": "src",
+    "types": ["jest"]
   },
   "baseUrl": "src",
   "include": [
