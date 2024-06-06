@@ -3,7 +3,6 @@ import logger from '../config/winston'
 import prisma from '../prismaClient'
 import ApiError from './../utils/ApiError'
 import httpStatus from 'http-status'
-// import { http } from 'winston'
 export interface ProductInfo {
   ProductId: number
   Gender: string
@@ -31,7 +30,8 @@ export const getProduct = async (req: Request, res: Response, next: NextFunction
         id: paramId
       },
     });
-    logger.info('Retrieved product data');
+    console.log("test", response)
+    logger.info(`Retrieved product data ${response}`);
     res.status(200).json({response})
   } catch (error) {
     next(

@@ -9,6 +9,7 @@ import httpStatus from 'http-status'
 
 async function startServer() {
   const app = express()
+  app.use(cors())
   app.get("/", (req, res, next) => {
     res.json({message:"Welcome to the Backend of Ecommerce.."})
 })
@@ -17,12 +18,7 @@ async function startServer() {
 
   app.use(express.urlencoded({ extended: true }))
   app.use(routes)
-  const corsOptions = {
-    origin: process.env.HOST,
-    credentials: true,
-  }
   
-app.use(cors(corsOptions))
 
   // send 404 for an unknown api request
 app.use((req, res, next) => {
