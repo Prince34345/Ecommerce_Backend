@@ -3,6 +3,7 @@ import logger from '../config/winston'
 import prisma from '../prismaClient'
 import ApiError from './../utils/ApiError'
 import httpStatus from 'http-status'
+import { Prisma } from '@prisma/client'
 export interface ProductInfo {
   ProductId: number
   Gender: string
@@ -137,11 +138,11 @@ export const getSearchProduct = async (req: Request, res: Response, next: NextFu
        skip: Number(skip),
        where: {
          OR: [ 
-           {ProductTitle: searchTerm},
-           {ProductType: searchTerm},
-           {Gender: searchTerm},
-           {Category: searchTerm},
-           {Colour: searchTerm}
+           {ProductTitle: /searchTerm*/ as unknown},
+           {ProductType: /searchTerm*/ as unknown},
+           {Gender: /searchTerm*/ as unknown},
+           {Category: /searchTerm*/ as unknown},
+           {Colour: /searchTerm*/ as unknown}
          ]
        }
     })
