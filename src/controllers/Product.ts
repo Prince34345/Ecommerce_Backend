@@ -143,7 +143,14 @@ export const getSearchProduct = async (req: Request, res: Response, next: NextFu
            {Category: searchTerm},
            {Colour: searchTerm}
          ]
-         
        }
     })
+     try {  
+        if (!SearchedProduct) {res.send(new ApiError("Bad Searching!", httpStatus.BAD_GATEWAY, httpStatus[httpStatus.BAD_GATEWAY])) }
+        else {logger.info("Search Product", {SearchedProduct}) 
+              res.json({SearchedProduct}).status(200)
+        }   
+     } catch (error) {
+         res.json({msg: `Cannot Get The Searching   ${error} problem is there.`})
+     }
 }
