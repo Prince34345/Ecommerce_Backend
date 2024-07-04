@@ -138,13 +138,13 @@ export const getSearchProduct = async (req: Request, res: Response, next: NextFu
        skip: Number(skip),
        where: {
          OR: [ 
-           {ProductTitle: /searchTerm*/ as unknown},
-           {ProductType: /searchTerm*/ as unknown},
-           {Gender: /searchTerm*/ as unknown},
-           {Category: /searchTerm*/ as unknown},
-           {Colour: /searchTerm*/ as unknown}
-         ]
-       }
+           {ProductTitle: `${searchTerm}*`},
+           {ProductType: `${searchTerm}*`},
+           {Gender:`${searchTerm}*`},
+           {Category:`${searchTerm}*`},
+           {Colour: `${searchTerm}*`},
+           
+         ]}
     })
      try {  
         if (!SearchedProduct) {res.send(new ApiError("Bad Searching!", httpStatus.BAD_GATEWAY, httpStatus[httpStatus.BAD_GATEWAY])) }
