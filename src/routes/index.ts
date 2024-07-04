@@ -9,8 +9,7 @@ router.get('/product/:id', controllers.getProduct)
 router.post('/product', controllers.createProduct)
 router.put('/product/:id', controllers.updateProduct)
 router.delete('/product/:id', controllers.deleteProduct)
-
-
+router.get('/products/search', controllers.getSearchProduct)
 
 //Filter Routes
 router.get('/filters', Filtercontrollers.getFilters)

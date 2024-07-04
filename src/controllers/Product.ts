@@ -125,3 +125,25 @@ export const deleteProduct = async (req: Request, res: Response, next: NextFunct
        next(new ApiError("Error in Delete Product query", httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
   }
 }
+
+
+export const getSearchProduct = async (req: Request, res: Response, next: NextFunction) => {
+      const { page, limit} = req.query as {page?: number | any, limit?: number | any}
+     if (!page || !limit) return res.send(new ApiError("Bad Search Request", httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]))
+     const {searchTerm} = req.query as {searchTerm?: string}
+      const skip = (page - 1) * limit;
+      const SearchedProduct = await prisma.products.findMany({
+       take: Number(limit),
+       skip: Number(skip),
+       where: {
+         OR: [ 
+           {ProductTitle: searchTerm},
+           {ProductType: searchTerm},
+           {Gender: searchTerm},
+           {Category: searchTerm},
+           {Colour: searchTerm}
+         ]
+         
+       }
+    })
+}

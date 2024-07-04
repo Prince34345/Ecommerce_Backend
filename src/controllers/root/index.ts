@@ -1,14 +1,15 @@
 import { createFavProduct, deleteFavProduct, getFavProducts } from '../../controllers/favProduct'
 import { createCategory, deleteCategory, getCategories, updateCategory } from '../../controllers/Category'
 import { createFilter, deleteFilter, getFilters, updateFilter } from '../../controllers/Filter'
-import { createProduct,deleteProduct,getAllProducts,getProduct,updateProduct} from '../Product'
+import { createProduct,deleteProduct,getAllProducts,getProduct,updateProduct, getSearchProduct} from '../Product'
 
 export const controllers = {
   getProduct,
   getAllProducts,
   deleteProduct,
   updateProduct,
-  createProduct
+  createProduct,
+  getSearchProduct
 }
 export const Filtercontrollers = {
   getFilters,
