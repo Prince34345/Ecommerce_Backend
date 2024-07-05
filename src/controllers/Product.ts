@@ -138,11 +138,11 @@ export const getSearchProduct = async (req: Request, res: Response, next: NextFu
        skip: Number(skip),
        where: {
          OR: [ 
-           {ProductTitle: `${searchTerm}*`},
-           {ProductType: `${searchTerm}*`},
-           {Gender:`${searchTerm}*`},
-           {Category:`${searchTerm}*`},
-           {Colour: `${searchTerm}*`},
+           {ProductTitle: (new RegExp(searchTerm, 'i') as unknown) as string },
+           {ProductType: (new RegExp(searchTerm, 'i') as unknown) as string },
+           {Gender:(new RegExp(searchTerm, 'i') as unknown) as string },
+           {Category:(new RegExp(searchTerm, 'i') as unknown) as string },
+           {Colour:(new RegExp(searchTerm, 'i') as unknown) as string },
            
          ]}
     })
