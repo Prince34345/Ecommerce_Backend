@@ -74,7 +74,7 @@ export const getAllProducts = async (req: Request , res: Response, next: NextFun
       take: Number(limit),
       skip: Number(skip),
     });
-    logger.info('Retrieved all product data:', { page, limit })
+    // logger.info('Retrieved all product data:', { page, limit })
     res.status(200).json({response});
     
   } catch (error) {
@@ -132,18 +132,22 @@ export const getSearchProduct = async (req: Request, res: Response, next: NextFu
       const { page, limit} = req.query as {page?: number | any, limit?: number | any}
      if (!page || !limit) return res.send(new ApiError("Bad Search Request", httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]))
      const {searchTerm} = req.query as {searchTerm?: string}
+    console.log(searchTerm)
       const skip = (page - 1) * limit;
       const SearchedProduct = await prisma.products.findMany({
        take: Number(limit),
        skip: Number(skip),
+       
        where: {
          OR: [ 
-           {ProductTitle: searchTerm},
-           {ProductType: searchTerm},
-           {Gender: searchTerm},
-           {Category: searchTerm},
-           {Colour: searchTerm} ,
-         ]},})
+           {ProductTitle: {contains: searchTerm, mode: "insensitive" }},
+           {ProductType: {contains: searchTerm, mode: "insensitive" }},
+           {Gender: {contains: searchTerm, mode: "insensitive" }},
+           {Category: {contains: searchTerm, mode: "insensitive" }},
+           {Colour: {contains: searchTerm, mode: "insensitive" }},
+         ]},
+      
+      })
      try {  
         if (!SearchedProduct) {res.send(new ApiError("Bad Searching!", httpStatus.BAD_GATEWAY, httpStatus[httpStatus.BAD_GATEWAY])) }
         else {logger.info("Search Product", {SearchedProduct}) 
