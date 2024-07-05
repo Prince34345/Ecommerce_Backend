@@ -138,14 +138,12 @@ export const getSearchProduct = async (req: Request, res: Response, next: NextFu
        skip: Number(skip),
        where: {
          OR: [ 
-           {ProductTitle: (new RegExp(searchTerm, 'i') as unknown) as string },
-           {ProductType: (new RegExp(searchTerm, 'i') as unknown) as string },
-           {Gender:(new RegExp(searchTerm, 'i') as unknown) as string },
-           {Category:(new RegExp(searchTerm, 'i') as unknown) as string },
-           {Colour:(new RegExp(searchTerm, 'i') as unknown) as string },
-           
-         ]}
-    })
+           {ProductTitle: searchTerm},
+           {ProductType: searchTerm},
+           {Gender: searchTerm},
+           {Category: searchTerm},
+           {Colour: searchTerm} ,
+         ]},})
      try {  
         if (!SearchedProduct) {res.send(new ApiError("Bad Searching!", httpStatus.BAD_GATEWAY, httpStatus[httpStatus.BAD_GATEWAY])) }
         else {logger.info("Search Product", {SearchedProduct}) 
