@@ -3,7 +3,8 @@ import logger from '../config/winston'
 import prisma from '../prismaClient'
 import ApiError from './../utils/ApiError'
 import httpStatus from 'http-status'
-import { Prisma } from '@prisma/client'
+
+
 export interface ProductInfo {
   ProductId: number
   Gender: string
@@ -44,6 +45,7 @@ export const getProduct = async (req: Request, res: Response, next: NextFunction
     )
   }
 }
+
 export const createProduct = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const body = req.body as ProductInfo
@@ -64,6 +66,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
 }
 
 export const getAllProducts = async (req: Request , res: Response, next: NextFunction) => {
+  console.log("tesssesest", req.params)
   const { page, limit }  = req.query as { page?: number | any, limit?: number | any };
   // console.log("test", page)
   if (!page || !limit || page === 0)  {res.send(new ApiError("Bad Request",httpStatus.BAD_REQUEST,httpStatus[httpStatus.BAD_REQUEST]))}

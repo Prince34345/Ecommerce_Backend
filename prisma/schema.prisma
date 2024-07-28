@@ -7,41 +7,51 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Users {
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String     @unique
+  email    String     @unique
+  username String
+  wishlist products[]
+}
+
 model products {
-  id            String  @id @default(auto()) @map("_id") @db.ObjectId
-  ProductId     Int
-  Gender        String
-  Category      String
-  SubCategory   String
-  ProductType   String
-  Colour        String
-  Usage         String
-  ProductTitle  String
-  ImageURL      String
-  UnitPrice     Float
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  ProductId    Int
+  Gender       String
+  Category     String
+  SubCategory  String
+  ProductType  String
+  Colour       String
+  Usage        String
+  ProductTitle String
+  ImageURL     String
+  UnitPrice    Float
+  Users        Users?  @relation(fields: [usersId], references: [id])
+  usersId      String? @db.ObjectId
 }
 
 model favouriteProducts {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  ProductId     Int
-  Gender        String
-  Category      String
-  SubCategory   String
-  ProductType   String
-  Colour        String
-  Usage         String
-  ProductTitle  String
-  ImageURL      String
-  UnitPrice     Float
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  ProductId    Int
+  Gender       String
+  Category     String
+  SubCategory  String
+  ProductType  String
+  Colour       String
+  Usage        String
+  ProductTitle String
+  ImageURL     String
+  UnitPrice    Float
 }
 
 model categories {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  Category   String
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  Category String
 }
 
 model filters {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  Title   String
-  Values  String
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  Title  String
+  Values String
 }
