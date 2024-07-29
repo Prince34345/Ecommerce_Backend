@@ -15,16 +15,16 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     try {
         const { userId } = req.query
         const user = await users.get(userId as string)
-        if (![user] && !user) {
+        if (!user) {
             res.send(new ApiError("bad request!", httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]))
         }
         const response = await prisma.users.create({
-            data: {
+            data : { 
                 userId: user.$id,
-                email: user.email,
                 username: user.name,
+                email: user.email 
             }
-        });
+        })
         logger.info('Retrieved product data');
         res.status(200).json({ response });
 
@@ -36,9 +36,10 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
 export const getUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params
+        console.log('id is requested from get user' ,id)
         const response = await prisma.users.findUnique({
             where: {
-                userId: id as string
+                id
             }
         })
         res.status(200).json({ response })
@@ -49,36 +50,33 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
 
 export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const {id} = req.params 
+        const id = req.params.id
         const response = await prisma.users.delete({
             where: {
-                userId: id as string
+                userId:id as string
             }
         })
-        res.status(200).json({ deleted: response ? true : false })
+        res.status(200).json({ response })
     } catch (error) {
-        next(new ApiError('error in getting user', httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
+        next(new ApiError('error in Deleting user', httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
     }
 }
-export const updateUserData = async (req: Request, res: Response, next: NextFunction) => {
-    const id = req.params.id;
-    const body = req.body;
-    if (![body] && !id) {
-        next(new ApiError('Not Any changes! and Invalid Id also', httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]))
-    }
-    try {
-        const response = await prisma.users.update({
-            where: {
-                id
-            },
-            data: req.body
-        })
-        res.status(200).json({ updated: response ? true : false })
-    } catch (error) {
-        next(new ApiError('error in updating user', httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
-    }
-}
+// export const updateUserData = async (req: Request, res: Response, next: NextFunction) => {
+//     const id = req.params.id;
+//     const updatedData = 
+//     try {
+//         const response = await prisma.users.update({
+//             where: {
+//                 id
+//             },
+//             data: req.body
+//         })
+//         res.status(200).json({ updated: response ? true : false })
+//     } catch (error) {
+//         next(new ApiError('error in updating user', httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
+//     }
+// }
 // cms admin panel functio
-export const getAllUsers = async () => {
+// export const getAllUsers = async () => {
 
-}
+// }

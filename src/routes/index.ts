@@ -17,18 +17,16 @@ router.delete('/filter/:id', Filtercontrollers.deleteFilter)
 
 router.get('/categories', Categorycontrollers.getCategories)
 router.post('/category/:id', Categorycontrollers.createCategory)
-// router.post('/category/:id', controllers.getAllcategorys)
 router.put('/category/:id', Categorycontrollers.updateCategory)
 router.delete('/category/:id', Categorycontrollers.deleteCategory)
 
 router.get('/favourites', Favouritecontrollers.getFavProducts)
 router.post('/favourite/:id', Favouritecontrollers.createFavProduct)
-// router.post('/Favourite/:id', controllers.getAllFavourites)
 router.delete('/favourite/:id', Favouritecontrollers.deleteFavProduct)
 
 router.get('/user/:id', Userscontrollers.getUser)
-router.post('/user', Userscontrollers.createUser)
-router.delete('/user/:id', Userscontrollers.deleteUser )
-router.patch('/user/:id', Userscontrollers.updateUserData )
+router.delete('/user/:id', Userscontrollers.deleteUser)
+router.post('/users', Userscontrollers.createUser)
+router.patch('/users', Userscontrollers.updateUserData )
 
 export default router
