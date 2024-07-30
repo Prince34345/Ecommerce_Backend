@@ -1,8 +1,8 @@
 import { createFavProduct, deleteFavProduct, getFavProducts } from '../../controllers/favProduct'
 import { createCategory, deleteCategory, getCategories, updateCategory } from '../../controllers/Category'
 import { createFilter, deleteFilter, getFilters, updateFilter } from '../../controllers/Filter'
-import { createProduct,deleteProduct,getAllProducts,getProduct,updateProduct, getSearchProduct} from '../Product'
-import { createUser, deleteUser, getUser } from '../../controllers/Users'
+import { createProduct, deleteProduct, getAllProducts, getProduct, updateProduct, getSearchProduct } from '../Product'
+import { createUser, deleteUser, getAllUsers, getUser } from '../../controllers/Users'
 import { getWishlist, updateWishlist } from '../../controllers/Wishlist'
 
 export const ProductController = {
@@ -33,12 +33,12 @@ export const Favouritecontrollers = {
 export const Userscontrollers = {
   getUser,
   createUser,
-  deleteUser
+  deleteUser,
+  getAllUsers
 }
 
 export const wishlistcontrollers = {
   updateWishlist,
   getWishlist,
-  getAllProducts
 }
 
