@@ -30,7 +30,7 @@ router.post('/users', Userscontrollers.createUser)
 
 router.patch('/wishlist/:id', wishlistcontrollers.updateWishlist)
 router.get('/wishlist/:id', wishlistcontrollers.getWishlist)
-
+router.get('/wishlists', wishlistcontrollers. );
 
 
 

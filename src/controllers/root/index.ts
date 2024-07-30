@@ -38,6 +38,7 @@ export const Userscontrollers = {
 
 export const wishlistcontrollers = {
   updateWishlist,
-  getWishlist
+  getWishlist,
+  getAllProducts
 }
 

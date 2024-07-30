@@ -37,7 +37,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
 export const getUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params
-        console.log('id is requested from get user' ,id)
+        console.log('id is requested from get user' , id);
         const response = await prisma.users.findUnique({
             where: {
                userId: id
