@@ -2,7 +2,7 @@ import prisma from "../prismaClient";
 import { NextFunction, Request, Response } from "express";
 import ApiError from "./../utils/ApiError";
 import httpStatus from "http-status";
-import logger from "config/winston";
+import logger from "../config/winston";
 
 export const updateWishlist = async (req: Request, res: Response, next: NextFunction) => {
    try {
