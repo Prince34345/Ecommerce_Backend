@@ -40,7 +40,7 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
         console.log('id is requested from get user' ,id)
         const response = await prisma.users.findUnique({
             where: {
-                id
+               userId: id
             }
         })
         res.status(200).json({ response })
