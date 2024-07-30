@@ -2,7 +2,8 @@ import { createFavProduct, deleteFavProduct, getFavProducts } from '../../contro
 import { createCategory, deleteCategory, getCategories, updateCategory } from '../../controllers/Category'
 import { createFilter, deleteFilter, getFilters, updateFilter } from '../../controllers/Filter'
 import { createProduct,deleteProduct,getAllProducts,getProduct,updateProduct, getSearchProduct} from '../Product'
-import { createUser, deleteUser, getUser, updateUserData } from '../../controllers/Users'
+import { createUser, deleteUser, getUser } from '../../controllers/Users'
+import { getWishlist, updateWishlist } from '../../controllers/Wishlist'
 
 export const ProductController = {
   getProduct,
@@ -32,7 +33,11 @@ export const Favouritecontrollers = {
 export const Userscontrollers = {
   getUser,
   createUser,
-  updateUserData,
   deleteUser
+}
+
+export const wishlistcontrollers = {
+  updateWishlist,
+  getWishlist
 }
 
