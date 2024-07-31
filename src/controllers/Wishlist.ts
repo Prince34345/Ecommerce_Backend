@@ -7,7 +7,7 @@ import logger from "../config/winston";
 export const updateWishlist = async (req: Request, res: Response, next: NextFunction) => {
    try {
        const {id} = req.params
-       const wishlistArr = req.body
+       const wishlistArr = req.body?.wishlist
        const response = await prisma.users.update({
           where: {
             userId: id
