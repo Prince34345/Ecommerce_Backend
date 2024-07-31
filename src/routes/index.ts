@@ -28,6 +28,7 @@ router.delete('/user/:id', Userscontrollers.deleteUser);
 router.get('/users', Userscontrollers.getAllUsers);
 router.post('/users', Userscontrollers.createUser);
 
+
 router.patch('/wishlist/:id', wishlistcontrollers.updateWishlist);
 router.get('/wishlist/:id', wishlistcontrollers.getWishlist);
 
