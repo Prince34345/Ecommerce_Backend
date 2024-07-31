@@ -4,6 +4,7 @@ import { NextFunction, Request, Response } from "express";
 import ApiError from "./../utils/ApiError";
 import httpStatus from "http-status";
 import { users } from "./constant/appwrite-constant/appwrite-service";
+import { ProductInfo } from "./Product";
 
 export interface UsersInfo {
     username: string
@@ -13,19 +14,15 @@ export interface UsersInfo {
 
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { userId } = req.query
+        const userId  = req.query.userId
         const user = await users.get(userId as string)
-        if (!user) {
-            res.send(new ApiError("bad request!", httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]))
-        }
         const response = await prisma.users.create({
-            data : { 
+           data: {
                 userId: user.$id,
                 username: user.name,
                 email: user.email,
-                wishlist: [] as any
-            }
-        })
+           }
+        }) as UsersInfo
         logger.info('Retrieved product data');
         res.status(200).json({ response });
 

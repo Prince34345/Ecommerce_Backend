@@ -12,7 +12,7 @@ model Users {
   userId   String     @unique
   email    String     @unique
   username String
-  wishlist products[] 
+  wishlist products[]
 }
 
 model products {
