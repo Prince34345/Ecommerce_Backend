@@ -24,7 +24,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
                 email: user.email,
                 wishlist: { connect: [] }
            }
-        }) as UsersInfo
+        })
         logger.info('Retrieved product data');
         res.status(200).json({ response });
 
@@ -41,9 +41,7 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
             where: {
                userId: id
             },
-            select: {
-                userId: true,
-                username: true,
+            include: {
                 wishlist: true
             }
         })
@@ -70,7 +68,11 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
 // cms admin panel functio
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
    try {
-       const response = await prisma.user.findMany()
+       const response = await prisma.user.findMany({
+        include: {
+            wishlist: true
+        }
+       })
        res.status(200).json({response})
    } catch (error) {
        next(new ApiError('error in Deleting user', httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
