@@ -13,7 +13,7 @@ interface FilterInfo {
 export const getFilters = async (req: Request, res: Response, next:NextFunction) => {
     try {
      
-      const response = await prisma.filters.findMany()
+      const response = await prisma.filter.findMany()
       res.json(response).status(200)
       logger.info('Retrieved all filters data:', { response })
   
@@ -29,7 +29,7 @@ export const createFilter = async (req: Request, res: Response, next: NextFuncti
         res.send(new ApiError("Bad Request!", httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]));
     }
     try {
-      const response = await prisma.filters.create({
+      const response = await prisma.filter.create({
         data: req.body,
       })
   
@@ -48,7 +48,7 @@ export const updateFilter = async (req:Request, res: Response, next: NextFunctio
       res.send(new ApiError("Bad Request!", httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]));
     }
     try {
-      const updatedfilter = await prisma.filters.update({
+      const updatedfilter = await prisma.filter.update({
         where: {
           id
         },
@@ -70,7 +70,7 @@ export const updateFilter = async (req:Request, res: Response, next: NextFunctio
 export const deleteFilter = async (req:Request, res: Response, next: NextFunction) => {
     const {id} = req.params
     try {
-      const deletedfilter = await prisma.filters.delete({
+      const deletedfilter = await prisma.filter.delete({
         where: {
           id,
         },

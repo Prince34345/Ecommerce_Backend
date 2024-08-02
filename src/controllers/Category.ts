@@ -12,7 +12,7 @@ export interface CategoryInfo {
 
 export const getCategories = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const response = await prisma.categories.findMany()
+    const response = await prisma.category.findMany()
     res.json(response)
     logger.info('Retrieved all getCategories data:', { response })
 
@@ -28,7 +28,7 @@ export const createCategory = async (req: Request, res: Response, next: NextFunc
     res.send(new ApiError("Bad Request", httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]));
   }
   try {
-    const response = await prisma.categories.create({
+    const response = await prisma.category.create({
       data: body,
     })
 
@@ -48,7 +48,7 @@ export const updateCategory = async (req: Request, res: Response, next: NextFunc
       res.send(new ApiError("Bad Request", httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]))
   }
   try {
-    const updatedCategory = await prisma.categories.update({
+    const updatedCategory = await prisma.category.update({
       where: {
         id,
       },
@@ -70,7 +70,7 @@ export const updateCategory = async (req: Request, res: Response, next: NextFunc
 export const deleteCategory = async (req: Request, response: Response, next: NextFunction) => {
   const {id} = req.params
   try {
-    const deletedCategory = await prisma.categories.delete({
+    const deletedCategory = await prisma.category.delete({
       where: {
         id,
       },

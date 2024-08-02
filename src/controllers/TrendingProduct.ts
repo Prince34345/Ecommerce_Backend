@@ -1,4 +1,4 @@
-import ApiError from './../utils/ApiError';
+import ApiError from '../utils/ApiError';
 import logger from '../config/winston'
 import prisma from '../prismaClient'
 import {NextFunction, Request, Response} from "express"
@@ -21,7 +21,7 @@ export interface FavProductInfo  {
 
 export const getFavProducts = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const response = await prisma.favouriteProducts.findMany();
+    const response = await prisma.trendingProducts.findMany();
     res.json(response)
 
     logger.info('Retrieved all Favourite Products data:', { response })
@@ -38,7 +38,7 @@ export const createFavProduct = async (req: Request, res: Response, next: NextFu
       res.send(new ApiError("Bad Request", httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]))
   }
   try {
-    const newProduct = await prisma.favouriteProducts.create({
+    const newProduct = await prisma.trendingProducts.create({
         data: body
     });
   } catch (error) {
@@ -49,7 +49,7 @@ export const createFavProduct = async (req: Request, res: Response, next: NextFu
 export const deleteFavProduct = async (req: Request, res: Response, next: NextFunction) => {
   const {id} = req.params
   try {
-    const deletedProduct = await prisma.favouriteProducts.delete({
+    const deletedProduct = await prisma.trendingProducts.delete({
       where: {
         id,
       },

@@ -5,41 +5,63 @@ import httpStatus from "http-status";
 import logger from "../config/winston";
 
 export const updateWishlist = async (req: Request, res: Response, next: NextFunction) => {
-   try {
-       const {id} = req.params
-       const wishlistArr = req.body?.wishlist
-       const response = await prisma.users.update({
-          where: {
-            userId: id
-          },
-          data: {
-            wishlist: wishlistArr || []
-          }
-       })
-       res.status(200).json({response})
-       logger.info('check the updating wishlist')
-   } catch (error) {
-       next(new ApiError(error, httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.REQUESTED_RANGE_NOT_SATISFIABLE]))
-       logger.info('check the error updating wishlist')
+    try {
+        const id = req.params.id;
+        logger.info('wishlist id', id)
+        const wishlist = req.body?.wishlist as any[];
+        logger.info('wishlist', wishlist)
+        const response = await prisma.user.update({
+            where: {
+                userId: id
+            },
+            data: {
+                wishlist: {
+                    createMany: {
+                       data: [{
+                            ProductId: 1,
+                            Gender: "Male",
+                            Category: "Clothing",
+                            SubCategory: "Shirts",
+                            ProductType: "T-Shirt",
+                            Colour: "Blue",
+                            Usage: "Casual",
+                            ProductTitle: "Casual Blue T-Shirt",
+                            ImageURL: "http://example.com/image.jpg",
+                            UnitPrice: 19.99,
+                        }],  
+                    }
+                }
+            },
+            include: {
+                wishlist: true
+            }
+
+        })
+        res.status(200).json({ response })
+        logger.info('check the updating wishlist')
+    } catch (error) {
+        next(new ApiError(error, httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
+        logger.info('check the error updating wishlist')
     }
 }
 
 export const getWishlist = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params
-        const response  = await prisma.users.findUnique({
-             where: {
+        logger.info('debug 1', id)
+        const response = await prisma.user.findFirst({
+            where: {
                 userId: id
-             },
-             select: {
+            },
+            select: {
                 wishlist: true
-             }
+            },
         })
-        res.status(200).json({response})
+        res.status(200).json({ response })
         logger.info('check for getting wishlist')
     } catch (error) {
         next(new ApiError(error, httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
         logger.info('check for error in getting wishlist', error)
-        
+
     }
 }

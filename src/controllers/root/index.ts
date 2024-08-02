@@ -1,4 +1,4 @@
-import { createFavProduct, deleteFavProduct, getFavProducts } from '../../controllers/favProduct'
+import { createFavProduct, deleteFavProduct, getFavProducts } from '../TrendingProduct'
 import { createCategory, deleteCategory, getCategories, updateCategory } from '../../controllers/Category'
 import { createFilter, deleteFilter, getFilters, updateFilter } from '../../controllers/Filter'
 import { createProduct, deleteProduct, getAllProducts, getProduct, updateProduct, getSearchProduct } from '../Product'

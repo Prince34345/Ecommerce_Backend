@@ -27,7 +27,7 @@ export const getProduct = async (req: Request, res: Response, next: NextFunction
   }
 
   try {
-    const response = await prisma.products.findUnique({
+    const response = await prisma.product.findUnique({
       where: {
         id: paramId
       },
@@ -53,7 +53,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
         res.send(new ApiError("bad request!", httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]))
     }else{
 
-    const response = await prisma.products.create({
+    const response = await prisma.product.create({
       data: req.body
     });
     res.json(response.id)
@@ -73,7 +73,7 @@ export const getAllProducts = async (req: Request , res: Response, next: NextFun
   const skip = (page - 1) * limit;
   
   try {
-    const response = await prisma.products.findMany({
+    const response = await prisma.product.findMany({
       take: Number(limit),
       skip: Number(skip),
     });
@@ -95,7 +95,7 @@ export const updateProduct = async (req: Request, res: Response, next: NextFunct
     res.send(new ApiError("Bad request", httpStatus.BAD_REQUEST, httpStatus[httpStatus.BAD_REQUEST]))
   }
   try {
-    const updateProduct = await prisma.products.update({where: {id}, data: req.body as ProductInfo})
+    const updateProduct = await prisma.product.update({where: {id}, data: req.body as ProductInfo})
     if (!updateProduct) {
       throw new Error(`Product with id ${id} not found`)
     }else{
@@ -112,7 +112,7 @@ export const updateProduct = async (req: Request, res: Response, next: NextFunct
 export const deleteProduct = async (req: Request, res: Response, next: NextFunction) => {
   const {id} = req.params
   try {
-    const deletedProduct = await prisma.products.delete({
+    const deletedProduct = await prisma.product.delete({
       where: {
         id,
       },
@@ -137,7 +137,7 @@ export const getSearchProduct = async (req: Request, res: Response, next: NextFu
      const {searchTerm} = req.query as {searchTerm?: string}
     console.log(searchTerm)
       const skip = (page - 1) * limit;
-      const SearchedProduct = await prisma.products.findMany({
+      const SearchedProduct = await prisma.product.findMany({
        take: Number(limit),
        skip: Number(skip),
        

@@ -7,16 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
-  id       String     @id @default(auto()) @map("_id") @db.ObjectId
-  userId   String     @unique
-  email    String     @unique
-  username String
-  wishlist products[]
+model User {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String    @unique
+  email       String    @unique
+  username    String
+  wishlist    Product[] @relation("wishlist")
 }
 
-model products {
-  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+model Product {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
   ProductId    Int
   Gender       String
   Category     String
@@ -27,12 +27,12 @@ model products {
   ProductTitle String
   ImageURL     String
   UnitPrice    Float
-  Users        Users?  @relation(fields: [usersId], references: [id])
-  usersId      String? @db.ObjectId
+  wishlist     User @relation("wishlist", fields: [wishlistid], references: [id])
+  wishlistid   String  @db.ObjectId
 }
 
-model favouriteProducts {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
+model TrendingProducts {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
   ProductId    Int
   Gender       String
   Category     String
@@ -45,12 +45,12 @@ model favouriteProducts {
   UnitPrice    Float
 }
 
-model categories {
+model Category {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
   Category String
 }
 
-model filters {
+model Filter {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
   Title  String
   Values String

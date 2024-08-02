@@ -10,17 +10,19 @@ export interface UsersInfo {
     username: string
     email: string
     password?: string,
+    wishlist?: ProductInfo[] | []
 }
 
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId  = req.query.userId
         const user = await users.get(userId as string)
-        const response = await prisma.users.create({
+        const response = await prisma.user.create({
            data: {
                 userId: user.$id,
                 username: user.name,
                 email: user.email,
+                wishlist: { connect: [] }
            }
         }) as UsersInfo
         logger.info('Retrieved product data');
@@ -35,9 +37,14 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
     try {
         const { id } = req.params
         console.log('id is requested from get user' , id);
-        const response = await prisma.users.findUnique({
+        const response = await prisma.user.findUnique({
             where: {
                userId: id
+            },
+            select: {
+                userId: true,
+                username: true,
+                wishlist: true
             }
         })
         res.status(200).json({ response })
@@ -49,7 +56,7 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
 export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = req.params.id
-        const response = await prisma.users.delete({
+        const response = await prisma.user.delete({
             where: {
                 userId:id as string
             }
@@ -63,7 +70,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
 // cms admin panel functio
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
    try {
-       const response = await prisma.users.findMany()
+       const response = await prisma.user.findMany()
        res.status(200).json({response})
    } catch (error) {
        next(new ApiError('error in Deleting user', httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
