@@ -9,7 +9,6 @@ export const updateWishlist = async (req: Request, res: Response, next: NextFunc
         const id = req.params.id;
         logger.info('wishlist id', id)
         const wishlist = req.body?.wishlist as any[];
-        logger.info('wishlist', wishlist)
         const response = await prisma.user.update({
             where: {
                 userId: id
@@ -17,18 +16,7 @@ export const updateWishlist = async (req: Request, res: Response, next: NextFunc
             data: {
                 wishlist: {
                     createMany: {
-                       data: [{
-                            ProductId: 1,
-                            Gender: "Male",
-                            Category: "Clothing",
-                            SubCategory: "Shirts",
-                            ProductType: "T-Shirt",
-                            Colour: "Blue",
-                            Usage: "Casual",
-                            ProductTitle: "Casual Blue T-Shirt",
-                            ImageURL: "http://example.com/image.jpg",
-                            UnitPrice: 19.99,
-                        }],  
+                       data: [...wishlist],  
                     }
                 }
             },
