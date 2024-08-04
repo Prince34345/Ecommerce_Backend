@@ -14,18 +14,10 @@ export const updateWishlist = async (req: Request, res: Response, next: NextFunc
                 userId: id
             },
             data: {
-                wishlist: {
-                    createMany: {
-                       data: [...wishlist],  
-                    }
-                }
+               wishlist: []
             },
-            include: {
-                wishlist: true
-            }
-
         })
-        res.status(200).json({ response })
+        res.status(200).json({ response: response.wishlist })
         logger.info('check the updating wishlist')
     } catch (error) {
         next(new ApiError(error, httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))

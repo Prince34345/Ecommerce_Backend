@@ -5,6 +5,7 @@ import ApiError from "./../utils/ApiError";
 import httpStatus from "http-status";
 import { users } from "./constant/appwrite-constant/appwrite-service";
 import { ProductInfo } from "./Product";
+import { Prisma } from "@prisma/client";
 
 export interface UsersInfo {
     username: string
@@ -17,17 +18,28 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     try {
         const userId  = req.query.userId
         const user = await users.get(userId as string)
+        const Existuser = await prisma.user.findUnique({
+            where: {
+                userId: userId as string
+            }
+        })
+        if (Existuser) {
+            res.status(409).send({message: 'User Already Existed!'})
+        }else {
         const response = await prisma.user.create({
-           data: {
+            data: {
                 userId: user.$id,
                 username: user.name,
                 email: user.email,
-                wishlist: { connect: [] }
-           }
+                wishlist: {
+                    set: []
+                } 
+            }
         })
-        logger.info('Retrieved product data');
-        res.status(200).json({ response });
-
+        logger.info('Retrieved product data')
+        res.status(200).json({ message: response ? 'User Created SuccessFully!' : 'Unable to Create Some Issue on your Data!' });
+    }
+        
     } catch (error) {
         next(new ApiError("error in creating a User!", httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
     }
@@ -41,9 +53,6 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
             where: {
                userId: id
             },
-            include: {
-                wishlist: true
-            }
         })
         res.status(200).json({ response })
     } catch (error) {
@@ -68,11 +77,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
 // cms admin panel functio
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
    try {
-       const response = await prisma.user.findMany({
-        include: {
-            wishlist: true
-        }
-       })
+       const response = await prisma.user.findMany()
        res.status(200).json({response})
    } catch (error) {
        next(new ApiError('error in Deleting user', httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
