@@ -14,7 +14,7 @@ export const updateWishlist = async (req: Request, res: Response, next: NextFunc
                 userId: id
             },
             data: {
-               wishlist: []
+               wishlist: wishlist
             },
         })
         res.status(200).json({ response: response.wishlist })
