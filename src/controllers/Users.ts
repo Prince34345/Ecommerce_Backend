@@ -23,9 +23,10 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
                 userId: userId as string
             }
         })
+        logger.info('User Already Existed')
         if (Existuser) {
-            res.status(409).send({message: 'User Already Existed!'})
-        }else {
+            res.status(409).json({message: 'User Already Existed!'})
+        } else {
         const response = await prisma.user.create({
             data: {
                 userId: user.$id,
