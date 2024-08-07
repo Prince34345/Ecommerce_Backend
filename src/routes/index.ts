@@ -26,7 +26,7 @@ router.delete('/favourite/:id', Favouritecontrollers.deleteFavProduct);
 router.get('/user/:id', Userscontrollers.getUser);
 router.delete('/user/:id', Userscontrollers.deleteUser);
 router.get('/users', Userscontrollers.getAllUsers);
-router.post('/users', Userscontrollers.createUser);
+router.post('/user/:id', Userscontrollers.createUser);
 
 
 
