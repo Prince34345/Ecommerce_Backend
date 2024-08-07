@@ -18,27 +18,20 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     try {
         const userId  = req.query.userId
         const user = await users.get(userId as string)
-        // const Existuser = await prisma.user.findUnique({
-        //     where: {
-        //         userId: userId as string
+        res.json({ userId , user })
+
+        // const response = await prisma.user.create({
+        //     data: {
+        //         userId: user.$id,
+        //         username: user.name,
+        //         email: user.email,
+        //         wishlist: {
+        //             set: []
+        //         } 
         //     }
         // })
-        // logger.info('User Already Existed')
-        // if (Existuser) {
-        //     res.status(409).json({message: 'User Already Existed!'})
-        // } else {
-        const response = await prisma.user.create({
-            data: {
-                userId: user.$id,
-                username: user.name,
-                email: user.email,
-                wishlist: {
-                    set: []
-                } 
-            }
-        })
         logger.info('Retrieved product data')
-        res.status(200).json({ message: response ? 'User Created SuccessFully!' : 'Unable to Create Some Issue on your Data!' });
+        // res.status(200).json({ message:  ? 'User Created SuccessFully!' : 'Unable to Create Some Issue on your Data!' });
     // }
         
     } catch (error) {

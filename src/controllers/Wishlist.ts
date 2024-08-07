@@ -37,11 +37,10 @@ export const getWishlist = async (req: Request, res: Response, next: NextFunctio
                 wishlist: true
             },
         })
-        res.status(200).json({ response })
+        res.status(200).json({ response });
         logger.info('check for getting wishlist')
     } catch (error) {
         next(new ApiError(error, httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
         logger.info('check for error in getting wishlist', error)
-
     }
 }
