@@ -11,8 +11,9 @@ async function startServer() {
   const app = express()
   app.use(cors({
     origin: '*',
-    methods: ['GET', 'POST', 'PATCH', 'PUT' ,'DELETE', 'OPTIONS'],
-  }))
+    methods: ['GET', 'POST', 'PATCH', 'PUT' ,'DELETE', 'HEAD'],
+    credentials: true,
+  }));
   app.get("/", (req, res, next) => {
     res.json({message:"Welcome to the Backend of Ecommerce.."})
   })
