@@ -9,10 +9,13 @@ import httpStatus from 'http-status'
 
 async function startServer() {
   const app = express()
-  app.use(cors())
+  app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PATCH', 'PUT' ,'DELETE', 'OPTIONS'],
+  }))
   app.get("/", (req, res, next) => {
     res.json({message:"Welcome to the Backend of Ecommerce.."})
-})
+  })
   app.use(morganLogger)
   app.use(express.json())
 
