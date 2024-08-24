@@ -8,15 +8,16 @@ datasource db {
 }
 
 model User {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  userId      String    @unique
-  email       String    @unique
-  username    String    @unique
-  wishlist    Json[]    @unique
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String @unique
+  email    String @unique
+  username String @unique
+  wishlist Json[] @unique
+  address  Json[] @unique
 }
 
 model Product {
-  id           String   @id @default(uuid()) @map("_id") @db.ObjectId
+  id           String @id @default(uuid()) @map("_id") @db.ObjectId
   ProductId    Int
   Gender       String
   Category     String
@@ -30,7 +31,7 @@ model Product {
 }
 
 model TrendingProducts {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
   ProductId    Int
   Gender       String
   Category     String

@@ -20,10 +20,8 @@ async function startServer() {
   app.use(morganLogger)
   app.use(express.json())
 
-  app.use(express.urlencoded({ extended: true }))
-  app.use(routes)
-  
-
+app.use(express.urlencoded({ extended: true }))
+app.use(routes)
   // send 404 for an unknown api request
 app.use((req, res, next) => {
     next(

@@ -1,4 +1,4 @@
-import { Categorycontrollers, Filtercontrollers, ProductController, Favouritecontrollers, Userscontrollers, wishlistcontrollers } from '../controllers/root/index';
+import { Categorycontrollers, Filtercontrollers, ProductController, Favouritecontrollers, Userscontrollers, wishlistcontrollers, Addresscontrollers } from '../controllers/root/index';
 import express, { Router } from 'express';
 const router: Router = express.Router()
 
@@ -32,6 +32,10 @@ router.post('/user/:id', Userscontrollers.createUser);
 
 router.patch('/wishlist/:id', wishlistcontrollers.updateWishlist);
 router.get('/wishlist/:id', wishlistcontrollers.getWishlist);
+
+router.patch('/address/:id', Addresscontrollers.updateAddress);
+router.get('/address/:id', Addresscontrollers.getAddresses);
+
 
 
 export default router

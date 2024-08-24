@@ -4,6 +4,7 @@ import { createFilter, deleteFilter, getFilters, updateFilter } from '../../cont
 import { createProduct, deleteProduct, getAllProducts, getProduct, updateProduct, getSearchProduct } from '../Product'
 import { createUser, deleteUser, getAllUsers, getUser } from '../../controllers/Users'
 import { getWishlist, updateWishlist } from '../../controllers/Wishlist'
+import { getAddresses, updateAddress } from '../../controllers/Address'
 
 export const ProductController = {
   getProduct,
@@ -42,3 +43,7 @@ export const wishlistcontrollers = {
   getWishlist,
 }
 
+export const Addresscontrollers = {
+  updateAddress,
+  getAddresses
+}

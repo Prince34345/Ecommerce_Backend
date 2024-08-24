@@ -7,13 +7,6 @@ import { users } from "./constant/appwrite-constant/appwrite-service";
 import { ProductInfo } from "./Product";
 import { Prisma } from "@prisma/client";
 
-export interface UsersInfo {
-    username: string
-    email: string
-    password?: string,
-    wishlist?: ProductInfo[] | []
-}
-
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId  = req.params.id
@@ -25,7 +18,10 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
                 email: user.email,
                 wishlist: {
                     set: []
-                } 
+                },
+                address: {
+                    set: []
+                }
             }
         })
         logger.info('Retrieved product data')

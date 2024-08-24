@@ -14,17 +14,16 @@ export const updateWishlist = async (req: Request, res: Response, next: NextFunc
                 userId: id
             },
             data: {
-               wishlist: wishlist
+               wishlist
             },
         })
-        res.status(200).json({ response: response.wishlist })
+        res.status(200).json({ wishlist: response.wishlist })
         logger.info('check the updating wishlist')
     } catch (error) {
         next(new ApiError(error, httpStatus.INTERNAL_SERVER_ERROR, httpStatus[httpStatus.INTERNAL_SERVER_ERROR]))
         logger.info('check the error updating wishlist')
     }
 }
-
 export const getWishlist = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params
